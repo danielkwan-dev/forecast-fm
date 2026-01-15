@@ -1,7 +1,3 @@
-"""
-Forecast.fm FastAPI Backend
-Weather prediction from Spotify audio features
-"""
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
@@ -84,7 +80,6 @@ app.add_middleware(
 
 @app.get("/", response_model=HealthResponse)
 async def root():
-    """Root endpoint - health check"""
     return HealthResponse(
         status="healthy",
         message="Forecast.fm API is running",
@@ -94,7 +89,6 @@ async def root():
 
 @app.get("/health", response_model=HealthResponse)
 async def health():
-    """Detailed health check with model info"""
     model_info = None
     if model_loader and model_loader.model:
         model_info = model_loader.get_model_info()
@@ -112,27 +106,16 @@ async def predict(request: PredictionRequest):
     """
     Predict weather category from Spotify audio features
 
-    **Expected features:**
+    Features:
     - energy: 0.0-1.0 (perceptual measure of intensity and activity)
     - valence: 0.0-1.0 (musical positivity/happiness)
     - tempo: BPM (typically 50-200)
     - acousticness: 0.0-1.0 (confidence the track is acoustic)
     - loudness: dB (typically -60 to 0)
 
-    **Returns:**
+    Returns:
     - weather: sunny | cloudy | rainy | snowy
     - confidence: prediction probability (0.0-1.0)
-
-    **Example request:**
-    ```json
-    {
-        "energy": 0.8,
-        "valence": 0.9,
-        "tempo": 120.0,
-        "acousticness": 0.2,
-        "loudness": -5.0
-    }
-    ```
     """
     if not model_loader or not model_loader.model:
         raise HTTPException(
@@ -179,22 +162,7 @@ async def predict(request: PredictionRequest):
 @app.post("/predict-song", response_model=SongWeatherResponse)
 async def predict_song_weather(request: SongSearchRequest):
     """
-    Search for a song on Spotify and predict its weather
-
     This endpoint combines Spotify search + audio feature extraction + ML prediction
-
-    **Flow:**
-    1. Search Spotify for the song
-    2. Fetch audio features (energy, valence, tempo, acousticness, loudness)
-    3. Run ML prediction to classify weather
-    4. Return track info + weather prediction
-
-    **Example request:**
-    ```json
-    {
-        "query": "Happy - Pharrell Williams"
-    }
-    ```
     """
     if not model_loader or not model_loader.model:
         raise HTTPException(
@@ -266,11 +234,6 @@ async def predict_song_weather(request: SongSearchRequest):
 
 @app.get("/features")
 async def get_expected_features():
-    """
-    Get expected feature names, order, and descriptions
-
-    Useful for frontend integration to ensure correct feature mapping
-    """
     if not model_loader:
         raise HTTPException(status_code=503, detail="Model loader not initialized")
 
@@ -310,7 +273,6 @@ async def get_expected_features():
 
 @app.get("/model-info")
 async def get_model_info():
-    """Get detailed information about the loaded model"""
     if not model_loader:
         raise HTTPException(status_code=503, detail="Model loader not initialized")
 
