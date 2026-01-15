@@ -1,6 +1,3 @@
-"""
-ML Model loader and prediction handler
-"""
 import joblib
 import numpy as np
 from pathlib import Path
@@ -11,18 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 class ModelLoader:
-    """
-    Handles loading and inference for weather classification models
-    Supports: Logistic Regression, Random Forest, Gradient Boosting, Naive Bayes
-    """
-
     def __init__(self, models_dir: str = "models"):
-        """
-        Initialize model loader
-
-        Args:
-            models_dir: Directory containing model files
-        """
         self.models_dir = Path(models_dir)
         self.model = None
         self.scaler = None
@@ -37,13 +23,6 @@ class ModelLoader:
         self.weather_labels = ["sunny", "cloudy", "rainy", "snowy"]
 
     def load(self, model_filename: str = "model.pkl", scaler_filename: str = "scaler.pkl"):
-        """
-        Load the trained model and optional scaler
-
-        Args:
-            model_filename: Name of the model file
-            scaler_filename: Name of the scaler file (optional)
-        """
         model_path = self.models_dir / model_filename
         scaler_path = self.models_dir / scaler_filename
 
@@ -66,16 +45,6 @@ class ModelLoader:
             logger.info("No scaler found - predictions will use raw features")
 
     def predict(self, features: np.ndarray) -> Tuple[str, float]:
-        """
-        Make a weather prediction from audio features
-
-        Args:
-            features: numpy array of shape (1, 5) containing:
-                      [energy, valence, tempo, acousticness, loudness]
-
-        Returns:
-            Tuple of (weather_label, confidence_score)
-        """
         if self.model is None:
             raise RuntimeError("Model not loaded. Call load() first.")
 
@@ -105,15 +74,6 @@ class ModelLoader:
         return weather, confidence
 
     def _get_confidence(self, features: np.ndarray) -> float:
-        """
-        Extract confidence score from model prediction
-
-        Args:
-            features: Preprocessed feature array
-
-        Returns:
-            Confidence score between 0 and 1
-        """
         try:
             # Try to get probability predictions
             if hasattr(self.model, "predict_proba"):
@@ -138,7 +98,6 @@ class ModelLoader:
         return confidence
 
     def get_model_info(self) -> dict:
-        """Get information about the loaded model"""
         if self.model is None:
             return {"loaded": False}
 
