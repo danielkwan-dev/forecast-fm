@@ -1,7 +1,3 @@
-"""
-Spotify + Reccobeats API Service
-Handles song search via Spotify and audio feature extraction via Reccobeats
-"""
 import os
 from typing import Optional, Dict
 import logging
@@ -16,10 +12,6 @@ RECCOBEATS_BASE_URL = "https://api.reccobeats.com"
 
 
 class SpotifyService:
-    """
-    Service for interacting with Spotify Web API using spotipy
-    """
-
     def __init__(self):
         """Initialize Spotify service with credentials from environment"""
         self.client_id = os.getenv("SPOTIPY_CLIENT_ID")
@@ -42,16 +34,6 @@ class SpotifyService:
                 logger.error(f"Failed to initialize Spotify: {e}")
 
     def search_track(self, query: str, limit: int = 1) -> Optional[Dict]:
-        """
-        Search for a track on Spotify
-
-        Args:
-            query: Search query (song name, artist, etc.)
-            limit: Number of results to return (default: 1)
-
-        Returns:
-            First track result or None if no results found
-        """
         if not self.sp:
             raise ValueError("Spotify service not initialized. Check credentials.")
 
@@ -75,15 +57,6 @@ class SpotifyService:
             raise Exception(f"Failed to search Spotify: {str(e)}")
 
     def spotify_to_recco(self, spotify_track_id: str) -> Optional[str]:
-        """
-        Convert Spotify track ID to Reccobeats track ID
-
-        Args:
-            spotify_track_id: Spotify track ID
-
-        Returns:
-            Reccobeats track ID or None if not found
-        """
         try:
             response = requests.get(
                 f"{RECCOBEATS_BASE_URL}/v1/track",
@@ -108,15 +81,6 @@ class SpotifyService:
             return None
 
     def get_audio_features(self, track_id: str) -> Dict[str, float]:
-        """
-        Get audio features for a specific track using Reccobeats API
-
-        Args:
-            track_id: Spotify track ID
-
-        Returns:
-            Dictionary containing audio features needed for ML prediction
-        """
         # Convert Spotify ID to Reccobeats ID
         recco_id = self.spotify_to_recco(track_id)
 
@@ -159,15 +123,6 @@ class SpotifyService:
             raise Exception(f"Failed to get audio features: {str(e)}")
 
     def get_track_info_and_features(self, query: str) -> Optional[Dict]:
-        """
-        Search for a track and get its audio features in one call
-
-        Args:
-            query: Search query (song name, artist, etc.)
-
-        Returns:
-            Dictionary with track info and audio features, or None if not found
-        """
         track = self.search_track(query)
 
         if not track:
