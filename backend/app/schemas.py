@@ -1,14 +1,8 @@
-"""
-Pydantic schemas for request/response validation
-"""
 from pydantic import BaseModel, Field
 from typing import Optional, Dict, Any
 
 
 class PredictionRequest(BaseModel):
-    """
-    Request schema for weather prediction from Spotify audio features
-    """
     energy: float = Field(
         ...,
         ge=0.0,
@@ -50,9 +44,6 @@ class PredictionRequest(BaseModel):
 
 
 class PredictionResponse(BaseModel):
-    """
-    Response schema for weather prediction
-    """
     weather: str = Field(
         ...,
         description="Predicted weather category: sunny, cloudy, rainy, or snowy"
@@ -74,9 +65,6 @@ class PredictionResponse(BaseModel):
 
 
 class SongSearchRequest(BaseModel):
-    """
-    Request schema for song search
-    """
     query: str = Field(
         ...,
         min_length=1,
@@ -92,9 +80,6 @@ class SongSearchRequest(BaseModel):
 
 
 class SongWeatherResponse(BaseModel):
-    """
-    Response schema for song weather prediction with track info
-    """
     track_id: str
     name: str
     artist: str
@@ -128,9 +113,6 @@ class SongWeatherResponse(BaseModel):
 
 
 class HealthResponse(BaseModel):
-    """
-    Health check response schema
-    """
     status: str
     message: str
     model_loaded: bool
