@@ -2,6 +2,11 @@
 
 Predict a suitable weather category given a song's audio features.
 
+## Authors
+
+- [**@rli8145**](https://github.com/rli8145) 
+- [**@danielkwan-dev**](https://github.com/danielkwan-dev)
+
 ## Two Demo Paths
 
 ### Option 1: Run the Website Locally
