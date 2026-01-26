@@ -7,24 +7,24 @@ import { WeatherIcon } from "./weather/WeatherIcon";
 import type { WeatherType } from "./weather/WeatherBackground";
 import { apiService } from "@/services/api-service";
 
-interface SongWeatherProps {
+interface Props {
   onWeatherChange: (weather: WeatherType) => void;
 }
 
-type SongWeatherType = "sunny" | "cloudy" | "rainy" | "snowy";
+type Type = "sunny" | "cloudy" | "rainy" | "snowy";
 
-interface SongResult {
+interface Result {
   title: string;
   artist: string;
-  weather: SongWeatherType;
+  weather: WeatherType;
   confidence: number;
   imageUrl?: string;
 }
 
-export const SongWeather = ({ onWeatherChange }: SongWeatherProps) => {
+export const Weather = ({ onWeatherChange }: Props) => {
   const [query, setQuery] = useState("");
   const [isSearching, setIsSearching] = useState(false);
-  const [result, setResult] = useState<SongResult | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleSearch = async () => {
@@ -35,9 +35,9 @@ export const SongWeather = ({ onWeatherChange }: SongWeatherProps) => {
 
     try {
       // Call the FastAPI backend
-      const response = await apiService.predictSongWeather(query);
+      const response = await apiService.predictWeather(query);
 
-      const songResult: SongResult = {
+      const Result: Result = {
         title: response.name,
         artist: response.artist,
         weather: response.weather,
@@ -45,7 +45,7 @@ export const SongWeather = ({ onWeatherChange }: SongWeatherProps) => {
         imageUrl: response.image_url || undefined,
       };
 
-      setResult(songResult);
+      setResult(Result);
       onWeatherChange(response.weather);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to analyze song';
@@ -62,7 +62,7 @@ export const SongWeather = ({ onWeatherChange }: SongWeatherProps) => {
     }
   };
 
-  const getWeatherDescription = (weather: SongWeatherType): string => {
+  const getWeatherDescription = (weather: WeatherType): string => {
     switch (weather) {
       case "sunny":
         return "Save this song for sunny days!";
@@ -195,4 +195,4 @@ export const SongWeather = ({ onWeatherChange }: SongWeatherProps) => {
   );
 };
 
-export default SongWeather;
+export default Weather;
