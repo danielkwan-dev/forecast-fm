@@ -118,5 +118,5 @@ More expressive models such as Gradient Boosting are nonetheless able to achieve
 
 ## Notes/Possible Improvements
 
-- As of Nov. 2024, Spotify API does not provide access to audio features. ReccoBeats was thus added for audio features but API experienced high latency. In the future we can experiment with caching song information for faster response times.
+- As of November 2024, Spotify API does not provide access to audio features. ReccoBeats was thus added for audio features but API experienced high latency. In the future we can experiment with caching song information for faster response times.
 - In the future, sentiment/semantic analysis on song lyrics could be used to further our model. For example, our model classifies "Jingle Bell Rock" by Brenda Lee as `sunny`, but the lyrics are definitely more indicative of a `snowy` song. 
