@@ -1,4 +1,4 @@
-# Weather-Conditioned Music Classification Engine
+# Forecast.fm: Weather-Conditioned Music Classification Engine
 
 Predict a suitable weather category given a song's audio features.
 
