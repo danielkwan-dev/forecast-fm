@@ -1,6 +1,6 @@
 # Forecast.fm: Weather-Conditioned Music Classification Engine
 
-Predict a suitable weather category given a song's audio features.
+Predict a suitable weather category given a song's audio features (valence, acousticness, tempo, loudness, energy)
 
 ## Authors
 
