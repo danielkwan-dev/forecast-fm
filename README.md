@@ -13,7 +13,7 @@ Predict a suitable weather category given a song's audio features (valence, acou
 
 This starts the FastAPI backend + the Vite frontend.
 
-1. Backend setup:
+1. Backend Setup:
 
 ```bash
 python -m venv venv
